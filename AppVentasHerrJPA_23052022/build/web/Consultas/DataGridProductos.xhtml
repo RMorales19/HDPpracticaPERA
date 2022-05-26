@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../PlantillaPrincipal/PlantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="formProducto">
+            <p:dataGrid var="p" value="#{pb.listProductos}" columns="3" layout="grid"
+                        rows="10" paginator="true" id="dgProductos"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,15">
+                <f:facet name="header">
+                    Productos a la venta
+                </f:facet>
+                <p:panel header="#{p.idlineaproducto.nombrelineaproducto}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <h:outputText value="#{p.descripcionproducto}" />
+                        <p:commandLink update="formProducto:productoDetalle"  oncomplete="PF('pDialog').show()" title="Ver Detalle Productos">
+                            <h:outputText value="Ver Detalle" style="margin:0 auto;"/>
+                            <f:setPropertyActionListener value="#{p}" target="#{pb.productoSelected}" />
+                        </p:commandLink>                            
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+            <p:dialog header="Producto Información" widgetVar="pDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="productoDetalle" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty pb.productoSelected}" columnClasses="label,value">
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{pb.productoSelected.idproducto}" />
+                        <h:outputText value="Línea Producto" />
+                        <h:outputText value="#{pb.productoSelected.idlineaproducto.nombrelineaproducto}" />
+                        <h:outputText value="Descripción Producto" />
+                        <h:outputText value="#{pb.productoSelected.descripcionproducto}" />
+                        <h:outputText value="Existencia Producto" />
+                        <h:outputText value="#{pb.productoSelected.existencia}" />
+                        <h:outputText value="Precio Producto" />
+                        <h:outputText value="$ #{pb.productoSelected.preciounitario}"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

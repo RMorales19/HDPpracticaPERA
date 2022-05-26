@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../PlantillaPrincipal/PlantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form>
+            <p:dataTable id="tblVentas" var="item" value="#{sb.obtenerListaSucursales()}" 
+                         sortBy="#{item.idsucursal}" expandableRowGroups="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                         {NextPageLink} {LastPageLink} {Exporters}"
+                         paginator="true" rows="10" style="margin-bottom:20px">
+
+
+                <f:facet name="{Exporters}">
+                    <h:commandLink>
+                        <p:graphicImage name="excel.png"  width="24"/>
+                        <p:dataExporter type="xls" target="tblVentas" fileName="ventas" />
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="pdf.png" width="24"/>
+                        <p:dataExporter type="pdf" target="tblVentas" fileName="ventas"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="csv.png" width="24"/>
+                        <p:dataExporter type="csv" target="tblVentas" fileName="ventas" />
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="xml.png" width="24"/>
+                        <p:dataExporter type="xml" target="tblVentas" fileName="ventas" />
+                    </h:commandLink>
+                </f:facet>
+
+        
+                <p:column headerText="SUCURSAL"  colspan="2">
+                    <h:outputText value="#{item.nombresucursal}" />
+                </p:column>
+
+
+                <p:column headerText="Responsable">                  
+                    <h:outputText value="#{item.responsablesucursal}" />                         
+                </p:column>
+
+                <p:column headerText="TELÉFONO">
+                    <h:outputText value="#{item.telefonosucursal}" />
+                </p:column>
+
+
+                <p:column headerText="DIRECCION" colspan="4">
+                    <h:outputText value="#{item.direccionsucursal}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
